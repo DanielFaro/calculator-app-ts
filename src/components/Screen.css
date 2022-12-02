@@ -1,0 +1,15 @@
+.screen {
+  height: 100px;
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 0 10px;
+  background-color: #00DDFF;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  font-size: 40px;
+  color: black;
+  box-sizing: border-box;
+  flex-wrap: nowrap
+}
