@@ -1,4 +1,12 @@
 .button {
+  background-color: gray;
+  font-size: 30px;
+  font-weight: bold;
+  color: white;
+  border-radius: 20px;
+}
+
+.number {
   background-color: cornflowerblue;
   font-size: 30px;
   font-weight: bold;
@@ -6,8 +14,12 @@
   border-radius: 20px;
 }
 
-.button:hover {
-  opacity: 0.7;
+.clear {
+  background-color: #ff1d58;
+  font-size: 30px;
+  font-weight: bold;
+  color: white;
+  border-radius: 20px;
 }
 
 .equals {
@@ -15,10 +27,10 @@
   border-radius: 20px;
   font-size: 30px;
   font-weight: bold;
-  grid-row: 3 /5 ;
+  grid-row: 4 /5 ;
   grid-column: 5;
 }
 
-.equals:hover {
+.button:hover, .number:hover, .clear:hover, .equals:hover  {
   opacity: 0.7;
 }
