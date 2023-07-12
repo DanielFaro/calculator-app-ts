@@ -48,84 +48,67 @@ const App = () => {
   };
 
   const onOperatorClick = (value: string): void => {
-    return setCalc({
-      ...calc,
-      operator: calc.operator ? calc.operator : value,
-    });
+    const { firstOperand, operator, secondOperand, result } = calc;
+    // if a user does 33 * 66 - , when they click - for example
+    // we must send the newOperator to onEquals click
+    if (firstOperand && operator && secondOperand && !result) {
+      onEqualsClick(value);
+    } else {
+      return setCalc({
+        ...calc,
+        operator: calc.operator ? calc.operator : value,
+      });
+    }
   };
 
   const onPercentClick = () => {
     const { firstOperand, operator, secondOperand, result } = calc;
-    console.log("## onPercentClick");
     // devide by 100
     // if only first operand, divide by 100 and set firstOperand
-    if (firstOperand && !operator && !secondOperand) {
-      const percent = String(Number(firstOperand) / 100);
+    if (firstOperand && !operator && !secondOperand && !result) {
       setCalc({
         ...calc,
-        firstOperand: percent,
+        firstOperand: String(Number(firstOperand) / 100),
       });
     } else if (firstOperand && operator && secondOperand && !result) {
-      const percent = String(Number(secondOperand) / 100);
       setCalc({
         ...calc,
-        secondOperand: percent,
+        secondOperand: String(Number(secondOperand) / 100),
       });
     } else {
       const percent = String(Number(result) / 100);
       setCalc({
         ...calc,
+        firstOperand: percent,
         result: percent,
       });
     }
-    // if there is a first, secondOperand and an operator, divide second operand by 100
-    // if there is a non zero result, divide by 100 and set result
   };
 
   const onInvertNumClick = (): void => {
     const { firstOperand, operator, secondOperand, result } = calc;
-    console.log("## onInvertNumClick ==", {
-      firstOperand,
-      operator,
-      secondOperand,
-      result,
-    });
     // need to check whats been entered
     // if only first operand, multiply firstOperand by -1
 
     // if equals was clicked and we are currently looking at the result
     if (firstOperand === result && !operator && secondOperand === 0) {
       const inverted = String(Number(result) * -1);
-      console.log("## inside Inverted Else ==", inverted);
       setCalc({
         ...calc,
         firstOperand: inverted, // this is needed in case they hit an operator next
         result: inverted,
       });
     } else if (firstOperand && !operator && !secondOperand) {
-      const inverted = String(Number(firstOperand) * -1);
       setCalc({
         ...calc,
-        firstOperand: inverted,
+        firstOperand: String(Number(firstOperand) * -1),
       });
     } else if (firstOperand && operator && secondOperand && !result) {
-      const inverted = String(Number(secondOperand) * -1);
-      console.log("## inside second Operand invert ==", {
-        firstOperand,
-        operator,
-        inverted,
-        result,
-      });
-
       setCalc({
         ...calc,
-        secondOperand: inverted,
+        secondOperand: String(Number(secondOperand) * -1),
       });
     }
-    // if there is a first operand, an second operand, no result, multiply secondOperand by -1
-    // if there is a non zero result, multiply result by -1
-
-    // setCalc({ ...calc, firstOperand: Number(calc.firstOperand) * -1 });
   };
 
   const onNumClick = (value: string | number): void => {
@@ -149,15 +132,8 @@ const App = () => {
   };
 
   // if result contains 'e', then remove starting at index -4 until length is 17
-  // if result contains 'e' disable delete
-  const onEqualsClick = () => {
+  const onEqualsClick = (nextOperator: string) => {
     const { operator, firstOperand, secondOperand, result } = calc;
-    console.log("## inside onEquals click ==", {
-      firstOperand,
-      operator,
-      secondOperand,
-      result,
-    });
     // find index of e and then can adjust tempstrings
     // for some reason it allows numbers up to 20 digits, which flows out of result box
     // need to check if more than 17 digits, and if so, calculate how many remain,
@@ -201,14 +177,27 @@ const App = () => {
       newResult = tempString;
     }
 
-    if (firstOperand && operator && secondOperand) {
+    // need to add a case where user typed i.e 33 * 66 -, we would need to call onEqualsClick
+    // from onOperatorClicked, but pass the operator, the result would be showing the current result onscreen
+    // and having the operator in memory ready for the next operand
+    if (firstOperand && operator && secondOperand && !result && nextOperator) {
       setCalc({
         ...calc,
-        operator: "",
+        operator: nextOperator,
         firstOperand: newResult,
         secondOperand: 0,
         result: newResult,
       });
+    } else {
+      if (firstOperand && operator && secondOperand) {
+        setCalc({
+          ...calc,
+          operator: "",
+          firstOperand: newResult,
+          secondOperand: 0,
+          result: newResult,
+        });
+      }
     }
   };
 
@@ -257,7 +246,7 @@ const App = () => {
       : value === "C"
       ? onClearClick()
       : value === "="
-      ? onEqualsClick()
+      ? onEqualsClick("")
       : value === "%"
       ? onPercentClick()
       : value === "+/-"
@@ -266,7 +255,8 @@ const App = () => {
       ? onDeleteClick()
       : onNumClick(value);
   };
-  console.log("## calc.result before render ==", calc.result);
+  // should we allow them to go past 5 decimal places when entering? prolly not
+  // also need to add commas for large numbers, only before decimal point, and if not include 'e' character
   return (
     <div className="App">
       <ScreenWrapper>

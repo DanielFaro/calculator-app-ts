@@ -5,11 +5,13 @@
   padding: 0 10px;
   background-color: #00DDFF;
   border-radius: 10px;
+  border: 2px solid black;
   display: flex;
   align-items: center;
   justify-content: flex-end;
   font-size: 40px;
   color: black;
   box-sizing: border-box;
-  flex-wrap: nowrap
+  flex-wrap: nowrap;
+  box-shadow: -5px -5px 10px gray inset;
 }

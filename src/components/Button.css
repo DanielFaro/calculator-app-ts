@@ -1,36 +1,32 @@
-.button {
-  background-color: gray;
+.button, .number, .clear, .equals {
+  border: 2px solid black;
   font-size: 30px;
   font-weight: bold;
   color: white;
   border-radius: 20px;
+  box-shadow: 5px 5px 5px gray;
+
+  &:hover {
+    opacity: 0.7
+  }
+}
+
+.button {
+  background-color: gray;
 }
 
 .number {
   background-color: cornflowerblue;
-  font-size: 30px;
-  font-weight: bold;
-  color: white;
-  border-radius: 20px;
 }
 
 .clear {
   background-color: #ff1d58;
-  font-size: 30px;
-  font-weight: bold;
-  color: white;
-  border-radius: 20px;
 }
 
 .equals {
   background-color: green;
-  border-radius: 20px;
-  font-size: 30px;
-  font-weight: bold;
   grid-row: 4 /5 ;
   grid-column: 5;
 }
 
-.button:hover, .number:hover, .clear:hover, .equals:hover  {
-  opacity: 0.7;
-}
+
