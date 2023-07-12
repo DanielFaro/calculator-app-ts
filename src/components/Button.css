@@ -4,10 +4,15 @@
   font-weight: bold;
   color: white;
   border-radius: 20px;
-  box-shadow: 5px 5px 5px gray;
+  box-shadow: 5px 5px 5px rgba(0,0,0,0.8);
 
   &:hover {
     opacity: 0.7
+  }
+
+  &:active {
+    transform: translateY(2px) translateX(2px);
+   
   }
 }
 
