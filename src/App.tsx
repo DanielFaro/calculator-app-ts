@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import ScreenWrapper from "./containers/ScreenWrapper";
 import Screen from "./components/Screen";
 import ButtonWrapper from "./containers/ButtonWrapper";
 import Button from "./components/Button";
+import { SFX } from "./assets/SFX/index";
 
 const btns: (string | number)[][] = [
   [7, 8, 9, "%", "del"],
@@ -27,6 +28,7 @@ const App = () => {
     secondOperand: 0,
     result: 0,
   });
+  const [playList, setPlayList] = useState<[]>([]);
 
   const compute = (a: number, b: number, operator: string): number =>
     operator === "+"
@@ -111,8 +113,20 @@ const App = () => {
     }
   };
 
+  // could create a refs array and loop through
+
+  const createPlayList = (num: string | number) => {
+    console.log("## num in createPlaylist ==", num, typeof num);
+    // setPlayList()
+
+    let chosenSound = SFX.filter((effect) => effect.btn === String(num));
+    chosenSound[0].sound.play();
+  };
+
   const onNumClick = (value: string | number): void => {
     const { operator, firstOperand, secondOperand, result } = calc;
+
+    createPlayList(value);
     setCalc({
       ...calc,
       operator: operator,
