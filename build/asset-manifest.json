@@ -1,13 +1,29 @@
 {
   "files": {
     "main.css": "/calculator-app-ts/static/css/main.c29bff42.css",
-    "main.js": "/calculator-app-ts/static/js/main.6943f98d.js",
+    "main.js": "/calculator-app-ts/static/js/main.73dbf334.js",
+    "static/media/ride.mp3": "/calculator-app-ts/static/media/ride.8bf38a22394c0b997b97.mp3",
+    "static/media/crash2.mp3": "/calculator-app-ts/static/media/crash2.ac331f1b00d42c90ece8.mp3",
+    "static/media/hihat_open.mp3": "/calculator-app-ts/static/media/hihat_open.80ca52408939bf7de9a3.mp3",
+    "static/media/crash1.mp3": "/calculator-app-ts/static/media/crash1.a4c4977dd7839c45f560.mp3",
+    "static/media/chimes2.mp3": "/calculator-app-ts/static/media/chimes2.7977993a90615cee187c.mp3",
+    "static/media/chimes1.mp3": "/calculator-app-ts/static/media/chimes1.36c8527db530c0793386.mp3",
+    "static/media/woodblock.mp3": "/calculator-app-ts/static/media/woodblock.36c0444c7890e91fb5c9.mp3",
+    "static/media/lowtom.mp3": "/calculator-app-ts/static/media/lowtom.cef4c1be930c51e63fa1.mp3",
+    "static/media/midtom.mp3": "/calculator-app-ts/static/media/midtom.ba321e9f41578991477a.mp3",
+    "static/media/drumroll.mp3": "/calculator-app-ts/static/media/drumroll.365202a26b170f35a97f.mp3",
+    "static/media/hitom.mp3": "/calculator-app-ts/static/media/hitom.b40af8c45985b4235868.mp3",
+    "static/media/snare2.mp3": "/calculator-app-ts/static/media/snare2.16fc03977642858d185d.mp3",
+    "static/media/snare1.mp3": "/calculator-app-ts/static/media/snare1.239ace0ea43df021a779.mp3",
+    "static/media/cowbell.mp3": "/calculator-app-ts/static/media/cowbell.0f2e35ae600b31c30cca.mp3",
+    "static/media/hihat_closed.mp3": "/calculator-app-ts/static/media/hihat_closed.6f332c26e9dbaa74cb2c.mp3",
+    "static/media/kick.mp3": "/calculator-app-ts/static/media/kick.757dad8aa9a8bfe60a98.mp3",
     "index.html": "/calculator-app-ts/index.html",
     "main.c29bff42.css.map": "/calculator-app-ts/static/css/main.c29bff42.css.map",
-    "main.6943f98d.js.map": "/calculator-app-ts/static/js/main.6943f98d.js.map"
+    "main.73dbf334.js.map": "/calculator-app-ts/static/js/main.73dbf334.js.map"
   },
   "entrypoints": [
     "static/css/main.c29bff42.css",
-    "static/js/main.6943f98d.js"
+    "static/js/main.73dbf334.js"
   ]
 }

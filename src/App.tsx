@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import ScreenWrapper from "./containers/ScreenWrapper";
 import Screen from "./components/Screen";
 import ButtonWrapper from "./containers/ButtonWrapper";
@@ -18,7 +18,7 @@ interface CalcInterface {
   operator: string;
   firstOperand: string | number;
   secondOperand: string | number;
-  result: string | number;
+  result: string;
 }
 
 const App = () => {
@@ -26,10 +26,62 @@ const App = () => {
     operator: "",
     firstOperand: 0,
     secondOperand: 0,
-    result: 0,
+    result: "0",
   });
   const [playList, setPlayList] = useState<[]>([]);
+  // const [buttonClicked, setButtonClicked] = useState<string | number>();
+  // initialized audioRef
+  const audioRef = useRef(new Audio());
 
+  // useEffect(() => {
+  //   console.log("## inside useEffect calc", audioRef.current.duration);
+  //   if (calc.result !== "0") {
+  //     playResult();
+  //   }
+  // }, [calc]);
+
+  // maybe create a useEffect for each button click, every function, that
+  // way can set audioref
+
+  const playResult = (result: string) => {
+    // console.log("## result in playResult", calc);
+    if (result !== "0" && typeof result === "string") {
+      // console.log("## inside first playEffect if block ==", result);
+
+      result.split("").forEach((num) => {
+        setTimeout(
+          () => {
+            let sound = SFX.filter((effect) => effect.btn === String(num));
+            let soundSrc = sound[0].src;
+
+            audioRef.current = new Audio(soundSrc);
+            console.log("## resultArray in playResult ==", audioRef.current);
+            audioRef.current.play();
+          },
+          audioRef.current.duration ? audioRef.current.duration : 0
+        );
+      });
+    }
+  };
+
+  const playEffect = (btn: string | number) => {
+    // NEED TO ignore 'e' in string!!!!
+    // if result iterate over list and set ne audioRef.current,
+    // only set after sound is complete, maybe add duration and setTimeout
+    // equal to the interval then set new audioRef
+
+    // console.log("## inside buttonClicked useEffect ==", buttonClicked);
+    audioRef.current.pause();
+
+    let sound = SFX.filter((effect) => effect.btn === String(btn));
+    let soundSrc = sound[0].src;
+
+    audioRef.current = new Audio(soundSrc);
+    audioRef.current.play();
+  };
+
+  // cann add a call to setAudio, then have a useEffect to track audio change
+  //
   const compute = (a: number, b: number, operator: string): number =>
     operator === "+"
       ? a + b
@@ -45,7 +97,7 @@ const App = () => {
       operator: "",
       firstOperand: 0,
       secondOperand: 0,
-      result: 0,
+      result: "0",
     });
   };
 
@@ -53,7 +105,8 @@ const App = () => {
     const { firstOperand, operator, secondOperand, result } = calc;
     // if a user does 33 * 66 - , when they click - for example
     // we must send the newOperator to onEquals click
-    if (firstOperand && operator && secondOperand && !result) {
+    console.log("## onOperatorCLick ==", value);
+    if (firstOperand && operator && secondOperand && result === "0") {
       onEqualsClick(value);
     } else {
       return setCalc({
@@ -67,12 +120,12 @@ const App = () => {
     const { firstOperand, operator, secondOperand, result } = calc;
     // devide by 100
     // if only first operand, divide by 100 and set firstOperand
-    if (firstOperand && !operator && !secondOperand && !result) {
+    if (firstOperand && !operator && !secondOperand && result === "0") {
       setCalc({
         ...calc,
         firstOperand: String(Number(firstOperand) / 100),
       });
-    } else if (firstOperand && operator && secondOperand && !result) {
+    } else if (firstOperand && operator && secondOperand && result === "0") {
       setCalc({
         ...calc,
         secondOperand: String(Number(secondOperand) / 100),
@@ -105,7 +158,7 @@ const App = () => {
         ...calc,
         firstOperand: String(Number(firstOperand) * -1),
       });
-    } else if (firstOperand && operator && secondOperand && !result) {
+    } else if (firstOperand && operator && secondOperand && result === "0") {
       setCalc({
         ...calc,
         secondOperand: String(Number(secondOperand) * -1),
@@ -114,19 +167,37 @@ const App = () => {
   };
 
   // could create a refs array and loop through
+  // at the end, play through loop at double speed with playBack(2)
 
-  const createPlayList = (num: string | number) => {
-    console.log("## num in createPlaylist ==", num, typeof num);
-    // setPlayList()
+  // const createPlayList = (playList: string) => {
+  //   console.log("## playList createPlaylist ==", playList, playList.split(""));
+  //   // setPlayList([...playList, chosenSound[0].sound])
+  //   // console.log("## split playlist ==", playList.entries());
+  //   playList.split("").map((effect) => playEffect(effect));
+  // };
 
-    let chosenSound = SFX.filter((effect) => effect.btn === String(num));
-    chosenSound[0].sound.play();
-  };
+  // const playEffect = (num: string | number) => {
+  //   let sounds = SFX.filter((effect) => effect.btn === String(num));
+  //   let chosenSound = sounds[0].sound;
+  //   console.log("## sound in playEffect ==", chosenSound, typeof chosenSound);
+  //   setAudio(chosenSound);
+  //   if (!audio?.pau) {
+  //     ff
+  //   }
+  //   chosenSound.play();
+  // };
 
   const onNumClick = (value: string | number): void => {
     const { operator, firstOperand, secondOperand, result } = calc;
+    console.log(
+      "## inside onNumClick ==",
+      firstOperand,
+      operator,
+      secondOperand,
+      result,
+      value
+    );
 
-    createPlayList(value);
     setCalc({
       ...calc,
       operator: operator,
@@ -139,7 +210,9 @@ const App = () => {
           ? noSpaceOrLeadZeros(String(secondOperand) + String(value))
           : secondOperand,
       result:
-        (firstOperand && operator) || (secondOperand && operator) ? 0 : result,
+        (firstOperand && operator) || (secondOperand && operator)
+          ? "0"
+          : result,
       /* if a user already did one calc, then immediately presses an operator and another number,
        it will clear result so the second operator will be displayed next instead of last result*/
     });
@@ -153,6 +226,9 @@ const App = () => {
     // need to check if more than 17 digits, and if so, calculate how many remain,
     // if 4 digits remain, since e+10 is minimum 4 places, must remove at least 4 places
     // maybe there is a calc library or math.floor or something
+    if (result === "0") {
+      playEffect("=");
+    }
 
     // if number has a decimal point, only go to 4 digits
     const tempResult = compute(
@@ -162,7 +238,7 @@ const App = () => {
     );
     let tempString = String(1 * Number(tempResult.toFixed(4))); // multiplying by 1 removed unnecessary trailing zeroes
 
-    let newResult;
+    let newResult: string;
 
     if (!tempString.includes("e") && tempString.length > 17) {
       tempString = Number(tempResult).toExponential(); // this returns a string
@@ -191,10 +267,19 @@ const App = () => {
       newResult = tempString;
     }
 
+    // console.log("## newResult in onEqual ==", newResult, typeof newResult);
+
     // need to add a case where user typed i.e 33 * 66 -, we would need to call onEqualsClick
     // from onOperatorClicked, but pass the operator, the result would be showing the current result onscreen
     // and having the operator in memory ready for the next operand
-    if (firstOperand && operator && secondOperand && !result && nextOperator) {
+
+    if (
+      firstOperand &&
+      operator &&
+      secondOperand &&
+      result === "0" &&
+      nextOperator
+    ) {
       setCalc({
         ...calc,
         operator: nextOperator,
@@ -202,16 +287,22 @@ const App = () => {
         secondOperand: 0,
         result: newResult,
       });
+      // createPlayList(newResult);
     } else {
       if (firstOperand && operator && secondOperand) {
-        setCalc({
-          ...calc,
-          operator: "",
-          firstOperand: newResult,
-          secondOperand: 0,
-          result: newResult,
-        });
+        console.log("## inside setCalc for onEqualClick", newResult);
+        setTimeout(() => {
+          setCalc({
+            ...calc,
+            operator: "",
+            firstOperand: newResult,
+            secondOperand: 0,
+            result: newResult,
+          });
+          playResult(newResult);
+        }, 2000);
       }
+      // createPlayList(newResult);
     }
   };
 
@@ -255,6 +346,9 @@ const App = () => {
   };
 
   const onButtonClick = (value: string | number) => {
+    if (value !== "=") {
+      playEffect(value);
+    }
     return value === "/" || value === "X" || value === "-" || value === "+"
       ? onOperatorClick(value)
       : value === "C"
@@ -269,13 +363,18 @@ const App = () => {
       ? onDeleteClick()
       : onNumClick(value);
   };
+  // if first operand equals result show result, otherwise show second, otherwise first
   // should we allow them to go past 5 decimal places when entering? prolly not
   // also need to add commas for large numbers, only before decimal point, and if not include 'e' character
   return (
     <div className="App">
       <ScreenWrapper>
         <Screen
-          value={calc.result || calc.secondOperand || calc.firstOperand}
+          value={
+            calc.result === calc.firstOperand
+              ? calc.result
+              : false || calc.secondOperand || calc.firstOperand
+          }
         />
         <ButtonWrapper>
           {btns.flat().map((btn, index) => {
