@@ -44,10 +44,7 @@ const App = () => {
   // way can set audioref
 
   const playResult = (result: string) => {
-    // console.log("## result in playResult", calc);
     if (result !== "0" && typeof result === "string") {
-      // console.log("## inside first playEffect if block ==", result);
-
       result.split("").forEach((num) => {
         setTimeout(
           () => {
@@ -70,7 +67,6 @@ const App = () => {
     // only set after sound is complete, maybe add duration and setTimeout
     // equal to the interval then set new audioRef
 
-    // console.log("## inside buttonClicked useEffect ==", buttonClicked);
     audioRef.current.pause();
 
     let sound = SFX.filter((effect) => effect.btn === String(btn));
@@ -189,14 +185,6 @@ const App = () => {
 
   const onNumClick = (value: string | number): void => {
     const { operator, firstOperand, secondOperand, result } = calc;
-    console.log(
-      "## inside onNumClick ==",
-      firstOperand,
-      operator,
-      secondOperand,
-      result,
-      value
-    );
 
     setCalc({
       ...calc,
@@ -266,8 +254,6 @@ const App = () => {
     } else {
       newResult = tempString;
     }
-
-    // console.log("## newResult in onEqual ==", newResult, typeof newResult);
 
     // need to add a case where user typed i.e 33 * 66 -, we would need to call onEqualsClick
     // from onOperatorClicked, but pass the operator, the result would be showing the current result onscreen
