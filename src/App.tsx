@@ -1,9 +1,12 @@
 import { useState, useRef, useEffect } from "react";
+import "./App.css";
 import ScreenWrapper from "./containers/ScreenWrapper";
 import Screen from "./components/Screen";
 import ButtonWrapper from "./containers/ButtonWrapper";
 import Button from "./components/Button";
 import { SFX } from "./assets/SFX/index";
+import { ReactComponent as VolumeOnIcon } from "./assets/icons/volumeOn.svg";
+import { ReactComponent as VolumeMuteIcon } from "./assets/icons/volumeMute.svg";
 
 const btns: (string | number)[][] = [
   [7, 8, 9, "%", "del"],
@@ -28,7 +31,7 @@ const App = () => {
     secondOperand: 0,
     result: "0",
   });
-  const [playList, setPlayList] = useState<[]>([]);
+  const [isMuted, setIsMuted] = useState<boolean>(false);
   // const [buttonClicked, setButtonClicked] = useState<string | number>();
   // initialized audioRef
   const audioRef = useRef(new Audio());
@@ -52,7 +55,6 @@ const App = () => {
             let soundSrc = sound[0].src;
 
             audioRef.current = new Audio(soundSrc);
-            console.log("## resultArray in playResult ==", audioRef.current);
             audioRef.current.play();
           },
           audioRef.current.duration ? audioRef.current.duration : 0
@@ -214,7 +216,7 @@ const App = () => {
     // need to check if more than 17 digits, and if so, calculate how many remain,
     // if 4 digits remain, since e+10 is minimum 4 places, must remove at least 4 places
     // maybe there is a calc library or math.floor or something
-    if (result === "0") {
+    if (result === "0" && !isMuted) {
       playEffect("=");
     }
 
@@ -276,17 +278,19 @@ const App = () => {
       // createPlayList(newResult);
     } else {
       if (firstOperand && operator && secondOperand) {
-        console.log("## inside setCalc for onEqualClick", newResult);
-        setTimeout(() => {
-          setCalc({
-            ...calc,
-            operator: "",
-            firstOperand: newResult,
-            secondOperand: 0,
-            result: newResult,
-          });
-          playResult(newResult);
-        }, 2000);
+        setTimeout(
+          () => {
+            setCalc({
+              ...calc,
+              operator: "",
+              firstOperand: newResult,
+              secondOperand: 0,
+              result: newResult,
+            });
+            if (!isMuted) playResult(newResult);
+          },
+          isMuted ? 0 : 2000
+        );
       }
       // createPlayList(newResult);
     }
@@ -332,7 +336,7 @@ const App = () => {
   };
 
   const onButtonClick = (value: string | number) => {
-    if (value !== "=") {
+    if (value !== "=" && !isMuted) {
       playEffect(value);
     }
     return value === "/" || value === "X" || value === "-" || value === "+"
@@ -349,40 +353,49 @@ const App = () => {
       ? onDeleteClick()
       : onNumClick(value);
   };
+
+  const toggleVolume = () => setIsMuted(!isMuted);
   // if first operand equals result show result, otherwise show second, otherwise first
   // should we allow them to go past 5 decimal places when entering? prolly not
   // also need to add commas for large numbers, only before decimal point, and if not include 'e' character
   return (
     <div className="App">
-      <ScreenWrapper>
-        <Screen
-          value={
-            calc.result === calc.firstOperand
-              ? calc.result
-              : false || calc.secondOperand || calc.firstOperand
-          }
-        />
-        <ButtonWrapper>
-          {btns.flat().map((btn, index) => {
-            return (
-              <Button
-                key={index}
-                className={
-                  btn === "="
-                    ? "equals"
-                    : typeof btn === "number"
-                    ? "number"
-                    : btn === "C"
-                    ? "clear"
-                    : "button"
-                }
-                value={btn}
-                onClick={() => onButtonClick(btn)}
-              />
-            );
-          })}
-        </ButtonWrapper>
-      </ScreenWrapper>
+      <div className="volumeWrapper">
+        <button onClick={toggleVolume} className="volumeBtn">
+          {isMuted ? <VolumeMuteIcon /> : <VolumeOnIcon />}
+        </button>
+      </div>
+      <div className="calculator">
+        <ScreenWrapper>
+          <Screen
+            value={
+              calc.result === calc.firstOperand
+                ? calc.result
+                : false || calc.secondOperand || calc.firstOperand
+            }
+          />
+          <ButtonWrapper>
+            {btns.flat().map((btn, index) => {
+              return (
+                <Button
+                  key={index}
+                  className={
+                    btn === "="
+                      ? "equals"
+                      : typeof btn === "number"
+                      ? "number"
+                      : btn === "C"
+                      ? "clear"
+                      : "button"
+                  }
+                  value={btn}
+                  onClick={() => onButtonClick(btn)}
+                />
+              );
+            })}
+          </ButtonWrapper>
+        </ScreenWrapper>
+      </div>
     </div>
   );
 };

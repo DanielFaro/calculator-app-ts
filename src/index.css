@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Quicksand&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Quicksand&display=swap");
 
 * {
   margin: 0;
@@ -7,18 +7,19 @@
     sans-serif; */
   padding: 0;
   font-family: "Quicksand", sans-serif;
+  box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 body {
   height: 100vh;
-  display: flex;
+  /* display: flex;
   align-items: center;
-  justify-content: center;
-  background: linear-gradient(#ff1d58, #f75990 50%, #00DDFF);
+  justify-content: center; */
+  background: linear-gradient(#ff1d58, #f75990 50%, #00ddff);
 }
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
