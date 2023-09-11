@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/calculator-app-ts/static/css/main.c29bff42.css",
-    "main.js": "/calculator-app-ts/static/js/main.67d965b4.js",
+    "main.css": "/calculator-app-ts/static/css/main.d059c2a4.css",
+    "main.js": "/calculator-app-ts/static/js/main.d08a3ceb.js",
     "static/media/chimes2.mp3": "/calculator-app-ts/static/media/chimes2.7977993a90615cee187c.mp3",
     "static/media/chimes1.mp3": "/calculator-app-ts/static/media/chimes1.e69c6e227bfc60980287.mp3",
     "static/media/ride.mp3": "/calculator-app-ts/static/media/ride.aac4c5055b06416164e3.mp3",
@@ -25,12 +25,14 @@
     "static/media/snare2.mp3": "/calculator-app-ts/static/media/snare2.47904307b71044a402da.mp3",
     "static/media/cowbell.mp3": "/calculator-app-ts/static/media/cowbell.edd1ef023a4c5358f843.mp3",
     "static/media/kick.mp3": "/calculator-app-ts/static/media/kick.39dc53c174b5a17559d4.mp3",
+    "static/media/volumeOn.svg": "/calculator-app-ts/static/media/volumeOn.8c333bf41efff9a0b3a4e79a48b43d0c.svg",
     "index.html": "/calculator-app-ts/index.html",
-    "main.c29bff42.css.map": "/calculator-app-ts/static/css/main.c29bff42.css.map",
-    "main.67d965b4.js.map": "/calculator-app-ts/static/js/main.67d965b4.js.map"
+    "static/media/volumeMute.svg": "/calculator-app-ts/static/media/volumeMute.4390ac4f8387d303b95143f35331b177.svg",
+    "main.d059c2a4.css.map": "/calculator-app-ts/static/css/main.d059c2a4.css.map",
+    "main.d08a3ceb.js.map": "/calculator-app-ts/static/js/main.d08a3ceb.js.map"
   },
   "entrypoints": [
-    "static/css/main.c29bff42.css",
-    "static/js/main.67d965b4.js"
+    "static/css/main.d059c2a4.css",
+    "static/js/main.d08a3ceb.js"
   ]
 }
