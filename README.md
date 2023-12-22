@@ -10,9 +10,9 @@ To run the codebase, clone the repo and type 'npm run start' or try it on the li
 
 ### State Management - 
 
-**useState** - Redux seemed like overkill for a small application and I wantedt to challenge myself by trying a new library. I chose zustand due to the small boilerplate and straightforward usage. Some local state was used e.g. the search bar uses a searchValue for the input, which is then sent to the store and set in global state as 'searchTerm'. 
+**useState** - Redux seemed like overkill for a small application and I wantedt to challenge myself by trying a new library. I decided localstate using the useState hook would suffice.
 
 
 ### Styling - 
 
-**CSS** - I wanted to create a project using 
+**CSS** - I have more recently been using SCSS, styled-components, MaterialUI etc. and wanted to get back to basics by only using plain CSS as both a refresher and way to decrease bundle size. 
